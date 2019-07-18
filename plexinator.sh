@@ -6,8 +6,8 @@
 
 NEW="$(dpkg -I /tmp/plexmediaserver.deb | grep Version | awk '{print $2}' | awk -F'[ -]' '{print $1}')"
 CURRENT="$(dpkg -l | grep plexmediaserver | awk '{print $3}' | awk -F'[ -]' '{print $1}')"
-LOGPATH=~/plexinator
-LOG=plexinator.log
+LOGPATH=~/plexinator # Future use
+LOG=plexinator.log # Future use
 PLEX="https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu&X-Plex-Token=removed"
 DEB=/tmp/plexmediaserver.deb
 
