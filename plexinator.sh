@@ -9,8 +9,9 @@ CURRENT="$(dpkg -l | grep plexmediaserver | awk '{print $3}' | awk -F'[ -]' '{pr
 LOGPATH=~/plexinator
 LOG=plexinator.log
 PLEX="https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu&X-Plex-Token=removed"
+DEB=/tmp/plexmediaserver.deb
 
-# PERFORM CLEANUP FIRST TO REMOVE OLD VERSIONS
+# PERFORM CLEANUP FIRST
 rm /tmp/plex*
 
 # GETTING STARTED 
@@ -52,7 +53,7 @@ sleep 3
 
 echo "Downloading new version of Plex..."
 echo ""
-wget -O /tmp/plexmediaserver.deb $PLEX
+wget -O ${DEB} "${PLEX}"
 
 echo "Comparing versions..."
 echo ""
@@ -75,7 +76,7 @@ then
         echo ""
         echo "Installing version $NEW..."
         echo ""
-        sudo dpkg -i /tmp/plex.deb
+        sudo dpkg -i $DEB
         echo ""
 else
         echo ""
@@ -85,4 +86,3 @@ fi
 
 echo ""
 echo "ALL DONE!"
-echo ""
