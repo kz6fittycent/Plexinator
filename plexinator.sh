@@ -15,7 +15,7 @@ DEB=/tmp/plexmediaserver.deb
 rm /tmp/plex*
 
 # GETTING STARTED 
-
+clear
 echo ""
 echo "----------------------------------------------"
 echo ""
@@ -86,3 +86,5 @@ fi
 
 echo ""
 echo "ALL DONE!"
+sleep 3
+clear
