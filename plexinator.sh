@@ -4,17 +4,28 @@
 # VARIABLES
 #########################
 
-NEW="$(dpkg -I /tmp/plexmediaserver.deb | grep Version | awk '{print $2}' | awk -F'[ -]' '{print $1}')"
+# Get newest Plex Version
+NEW=$(curl "https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu")
+NEW=$(echo $NEW | awk -F / -v OFS=- '{print $5}')
+NEW=$(echo $NEW | awk -F- -v OFS=- '{print $1}')
+
+# Set Current Installed Version
 CURRENT="$(dpkg -l | grep plexmediaserver | awk '{print $3}' | awk -F'[ -]' '{print $1}')"
+
+# Set Log Path
 LOGPATH=~/plexinator # Future use
 LOG=plexinator.log # Future use
+
+# Plex URL
 PLEX="https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu&X-Plex-Token=removed"
+
+# Filename
 DEB=/tmp/plexmediaserver.deb
 
 # PERFORM CLEANUP FIRST
 rm /tmp/plex*
 
-# GETTING STARTED 
+# GETTING STARTED
 clear
 echo ""
 echo "----------------------------------------------"
@@ -49,23 +60,21 @@ sleep 3
 #echo ""
 #echo ""
 
-# Grab the latest for comparison and install if newer
 
-echo "Downloading new version of Plex..."
-echo ""
-wget -O ${DEB} "${PLEX}"
+
+# Compare versions and install if newer
 
 echo "Comparing versions..."
 echo ""
 sleep 2
 
-echo "Current version is ${CURRENT}"
+echo "Current version is $CURRENT"
 echo ""
-sleep 3
+sleep 1
 
-echo "Downloaded version is ${NEW}"
+echo "Latest version is $NEW"
 echo ""
-sleep 3
+sleep 1
 
 dpkg --compare-versions $NEW gt $CURRENT
 sleep 3
@@ -74,6 +83,9 @@ if [ ${NEW} != ${CURRENT} ]
 then
         echo "Version $NEW available for install!"
         echo ""
+        echo "Downloading new version of Plex..."
+        echo ""
+        wget -O ${DEB} "${PLEX}"
         echo "Installing version $NEW..."
         echo ""
         sudo dpkg -i $DEB
