@@ -5,9 +5,7 @@
 #########################
 
 # Get newest Plex Version
-NEW=$(curl "https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu")
-NEW=$(echo $NEW | awk -F / -v OFS=- '{print $5}')
-NEW=$(echo $NEW | awk -F- -v OFS=- '{print $1}')
+NEW=$(curl 'https://plex.tv/downloads/latest/1?channel=16&build=linux-ubuntu-x86_64&distro=ubuntu' | cut -d '/' -f5 | cut -d '-' -f1)
 
 # Set Current Installed Version
 CURRENT="$(dpkg -l | grep plexmediaserver | awk '{print $3}' | awk -F'[ -]' '{print $1}')"
